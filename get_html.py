@@ -6,16 +6,19 @@ import random
 
 
 def switch_ip():
+
+    server_number = random.randint(1, 48)
+    server_name = f'us-free#{server_number}'
     proc = subprocess.Popen(
-        'protonvpn-cli c -rp TCP',
+        f'protonvpn-cli c {server_name}',
         shell=True,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
     proc.wait()
-    proxy_name = str(proc.stdout.read())
-    print(proxy_name.split('\\n')[1])
+    protonVPN_message = str(proc.stdout.read())
+    print(protonVPN_message.split('\\n')[1])
 
 
 def tern_off_vpn():

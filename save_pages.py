@@ -13,7 +13,6 @@ def get_company_link_list(url, json_file):
 
         try:
             html_page = get_html_page(url)
-            print(type(html_page))
             soup = BeautifulSoup(html_page, 'lxml')
             company_link_list = soup.find(
                 'table', class_='enf-list-table'
