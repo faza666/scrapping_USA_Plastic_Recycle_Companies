@@ -5,8 +5,7 @@ import subprocess
 import random
 
 
-def switch_ip():
-
+def tern_on_vpn():
     server_number = random.randint(1, 48)
     server_name = f'us-free#{server_number}'
     proc = subprocess.Popen(
@@ -17,8 +16,8 @@ def switch_ip():
         stderr=subprocess.PIPE
     )
     proc.wait()
-    protonVPN_message = str(proc.stdout.read())
-    print(protonVPN_message.split('\\n')[1])
+    message = str(proc.stdout.read())
+    print(message.split('\\n')[1])
 
 
 def tern_off_vpn():
@@ -31,9 +30,19 @@ def tern_off_vpn():
     )
     proc.wait()
     message = str(proc.stdout.read())
-    print(message)
+    print(message.split('\\n\\n')[1])
 
 
+def change_my_ip(func):
+    def wrapper(*args, **kwargs):
+        tern_on_vpn()
+        result = func(*args, **kwargs)
+        tern_off_vpn()
+        return result
+    return wrapper
+
+
+@change_my_ip
 def get_html_page(url):
     with open('user-agents.txt') as file:
         ua_list = file.readlines()
